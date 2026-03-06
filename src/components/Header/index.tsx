@@ -30,11 +30,9 @@ const Header = () => {
                 initial={{ y: -80, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="fixed top-0 left-0 right-0 z-50 py-3 backdrop-blur-xl border-b ds-transition-colors"
-                style={{
-                    background: isDark ? 'rgba(9,9,11,0.85)' : 'rgba(255,255,255,0.85)',
-                    borderColor: 'var(--ds-border)',
-                }}
+                className="fixed top-0 left-0 right-0 z-50 py-3 backdrop-blur-xl border-b ds-transition-colors
+                    dark:bg-[rgba(9,9,11,0.85)] bg-white
+                    dark:border-gray-800 border-gray-200"
             >
                 <div className="ds-container">
                     <div className="flex items-center justify-between">

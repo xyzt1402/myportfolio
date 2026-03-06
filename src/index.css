@@ -82,6 +82,12 @@
   body {
     @apply bg-background text-foreground;
     min-height: 100dvh;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Add smooth transitions for theme changes */
+  .dark {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   }
 
   h1 {
