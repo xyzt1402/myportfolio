@@ -1,6 +1,6 @@
 import type { AnalyzeUrlResponse, TranslateResponse, ModelId } from '../types/translation';
 
-const API_BASE_URL = ''; // Uses Vite proxy - /api/* routes to localhost:3001
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
 /**
  * Analyze a URL and extract content
