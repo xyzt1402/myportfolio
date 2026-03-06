@@ -4,6 +4,7 @@ import { BookOpen, ArrowRight, Loader2, AlertCircle, ChevronDown, RefreshCw, Cpu
 import { analyzeUrl, translateText, checkServerHealth } from '../services/translationApi';
 import { AVAILABLE_MODELS, DEFAULT_MODEL_ID } from '../types/translation';
 import type { TranslationState, ModelId } from '../types/translation';
+import { useTheme } from '../context/ThemeContext';
 
 /**
  * Novel Translator Page
@@ -20,9 +21,10 @@ interface ModelSelectorProps {
     selectedModel: ModelId;
     onSelect: (model: ModelId) => void;
     disabled?: boolean;
+    theme?: 'light' | 'dark';
 }
 
-function ModelSelector({ selectedModel, onSelect, disabled }: ModelSelectorProps) {
+function ModelSelector({ selectedModel, onSelect, disabled, theme = 'dark' }: ModelSelectorProps) {
     const [isOpen, setIsOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -51,9 +53,12 @@ function ModelSelector({ selectedModel, onSelect, disabled }: ModelSelectorProps
                 type="button"
                 onClick={() => !disabled && setIsOpen(!isOpen)}
                 disabled={disabled}
-                className="flex items-center gap-2 px-3 py-1.5 text-xs text-gray-400 hover:text-gray-300
-                         bg-transparent hover:bg-gray-800/50 rounded-md transition-all
-                         disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex items-center gap-2 px-3 py-1.5 text-xs rounded-md transition-all
+                         disabled:opacity-50 disabled:cursor-not-allowed
+                         ${theme === 'dark'
+                        ? 'text-gray-400 hover:text-gray-300 hover:bg-gray-800/50'
+                        : 'text-gray-600 hover:text-gray-700 hover:bg-gray-100'
+                    }`}
             >
                 <Cpu className="w-3.5 h-3.5" />
                 <span className="font-medium">{selectedModelData.name}</span>
@@ -68,8 +73,11 @@ function ModelSelector({ selectedModel, onSelect, disabled }: ModelSelectorProps
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -8, scale: 0.95 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute left-0 top-full mt-1 w-72 bg-gray-900 border border-gray-700
-                                 rounded-lg shadow-xl shadow-black/50 overflow-hidden z-50 p-2"
+                        className={`absolute left-0 top-full mt-1 w-72 border rounded-lg shadow-xl overflow-hidden z-50 p-2
+                                 ${theme === 'dark'
+                                ? 'bg-gray-900 border-gray-700 shadow-black/50'
+                                : 'bg-white border-gray-200 shadow-gray-900/10'
+                            }`}
                     >
                         <div className="max-h-64 overflow-y-auto space-y-1">
                             {AVAILABLE_MODELS.map((model) => (
@@ -78,26 +86,30 @@ function ModelSelector({ selectedModel, onSelect, disabled }: ModelSelectorProps
                                     type="button"
                                     onClick={() => handleSelect(model.id as ModelId)}
                                     className={`w-full flex items-center gap-3 px-3 py-3 text-left rounded-md
-                                             hover:bg-gray-800 transition-colors
-                                             ${selectedModel === model.id ? 'bg-indigo-500/10' : ''}`}
+                                             transition-colors
+                                             ${selectedModel === model.id ? 'bg-indigo-500/10' :
+                                            theme === 'dark' ? 'hover:bg-gray-800' : 'hover:bg-gray-100'
+                                        }`}
                                 >
                                     <div className={`w-4 h-4 rounded flex items-center justify-center
                                                   ${selectedModel === model.id
                                             ? 'bg-indigo-500 text-white'
-                                            : 'border border-gray-600'}`}>
+                                            : theme === 'dark' ? 'border border-gray-600' : 'border border-gray-300'}`}>
                                         {selectedModel === model.id && <Check className="w-3 h-3" />}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2">
                                             <span className={`text-sm font-medium truncate
-                                                           ${selectedModel === model.id ? 'text-indigo-400' : 'text-gray-200'}`}>
+                                                           ${selectedModel === model.id ? 'text-indigo-400' :
+                                                    theme === 'dark' ? 'text-gray-200' : 'text-gray-700'}`}>
                                                 {model.name}
                                             </span>
-                                            <span className="text-[10px] px-1.5 py-0.5 bg-gray-800 rounded text-gray-500">
+                                            <span className={`text-[10px] px-1.5 py-0.5 rounded text-gray-500
+                                                           ${theme === 'dark' ? 'bg-gray-800' : 'bg-gray-100'}`}>
                                                 {model.provider}
                                             </span>
                                         </div>
-                                        <p className="text-xs text-gray-500 truncate">
+                                        <p className={`text-xs truncate ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
                                             {model.description}
                                         </p>
                                     </div>
@@ -112,6 +124,7 @@ function ModelSelector({ selectedModel, onSelect, disabled }: ModelSelectorProps
 }
 
 export default function NovelTranslator() {
+    const { theme } = useTheme();
     const [url, setUrl] = useState('');
     const [state, setState] = useState<TranslationState>({
         status: 'idle',
@@ -245,9 +258,9 @@ export default function NovelTranslator() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-[#0a0a0b] text-gray-100">
+        <div className={`min-h-screen ${theme === 'dark' ? 'bg-[#0a0a0b] text-gray-100' : 'bg-gray-50 text-gray-900'}`}>
             {/* Header */}
-            <header className="border-b border-gray-800/50 bg-[#0a0a0b]/80 backdrop-blur-sm sticky top-0 z-50">
+            <header className={`border-b ${theme === 'dark' ? 'border-gray-800/50 bg-[#0a0a0b]/80' : 'border-gray-200 bg-white/80'} backdrop-blur-sm sticky top-0 z-50`}>
                 <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-indigo-500/10 rounded-lg">
@@ -289,13 +302,14 @@ export default function NovelTranslator() {
                                         value={url}
                                         onChange={(e) => setUrl(e.target.value)}
                                         placeholder="Paste novel chapter URL here..."
-                                        className="w-full px-4 py-4 bg-gray-900/50 border border-gray-800 rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all pr-24"
+                                        className={`w-full px-4 py-4 border rounded-xl text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all pr-24 ${theme === 'dark' ? 'bg-gray-900/50 border-gray-800' : 'bg-white border-gray-300'
+                                            }`}
                                         disabled={serverStatus === 'offline'}
                                     />
                                     <button
                                         type="submit"
                                         disabled={!url.trim() || serverStatus === 'offline'}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-lg font-medium transition-colors flex items-center gap-2"
+                                        className={`absolute right-2 top-1/2 -translate-y-1/2 px-4 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-lg font-medium transition-colors flex items-center gap-2`}
                                     >
                                         <span>Translate</span>
                                         <ArrowRight className="w-4 h-4" />
@@ -307,6 +321,7 @@ export default function NovelTranslator() {
                                     selectedModel={selectedModel}
                                     onSelect={setSelectedModel}
                                     disabled={serverStatus === 'offline'}
+                                    theme={theme}
                                 />
 
                                 {/* Error Message */}
@@ -323,7 +338,7 @@ export default function NovelTranslator() {
                             </form>
 
                             {/* Instructions */}
-                            <div className="mt-6 text-center text-gray-500 text-sm">
+                            <div className={`mt-6 text-center text-sm ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
                                 <p>Paste a URL from any novel site to translate it to Vietnamese</p>
                             </div>
                         </motion.div>
@@ -341,10 +356,10 @@ export default function NovelTranslator() {
                             <Loader2 className="w-12 h-12 text-indigo-400 animate-spin" />
                             <div className="absolute inset-0 w-12 h-12 border-2 border-indigo-400/20 rounded-full" />
                         </div>
-                        <h2 className="text-xl font-medium text-gray-200 mb-2">
+                        <h2 className={`text-xl font-medium mb-2 ${theme === 'dark' ? 'text-gray-200' : 'text-gray-800'}`}>
                             {state.status === 'analyzing' ? 'Analyzing Page...' : 'Translating...'}
                         </h2>
-                        <p className="text-gray-500">
+                        <p className={theme === 'dark' ? 'text-gray-500' : 'text-gray-600'}>
                             {state.status === 'analyzing'
                                 ? 'Extracting content from the URL'
                                 : 'Translating content to Vietnamese'
@@ -364,16 +379,16 @@ export default function NovelTranslator() {
                         className="space-y-6"
                     >
                         {/* Chapter Header */}
-                        <div className="flex items-center justify-between pb-4 border-b border-gray-800/50">
+                        <div className={`flex items-center justify-between pb-4 border-b ${theme === 'dark' ? 'border-gray-800/50' : 'border-gray-200'}`}>
                             <div>
-                                <h2 className="text-2xl font-semibold text-gray-100">{state.title}</h2>
-                                <p className="text-sm text-gray-500 mt-1">
+                                <h2 className={`text-2xl font-semibold ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>{state.title}</h2>
+                                <p className={`text-sm mt-1 ${theme === 'dark' ? 'text-gray-500' : 'text-gray-600'}`}>
                                     Translated from Chinese to Vietnamese
                                 </p>
                             </div>
                             <button
                                 onClick={handleReset}
-                                className="p-2 text-gray-500 hover:text-gray-300 hover:bg-gray-800/50 rounded-lg transition-colors"
+                                className={`p-2 rounded-lg transition-colors ${theme === 'dark' ? 'text-gray-500 hover:text-gray-300 hover:bg-gray-800/50' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-100'}`}
                                 title="Start over"
                             >
                                 <RefreshCw className="w-5 h-5" />
@@ -381,15 +396,15 @@ export default function NovelTranslator() {
                         </div>
 
                         {/* Translated Content */}
-                        <article className="prose prose-invert prose-lg max-w-none">
-                            <div className="whitespace-pre-wrap text-gray-300 leading-relaxed">
+                        <article className={`prose ${theme === 'dark' ? 'prose-invert' : ''} prose-lg max-w-none`}>
+                            <div className={`whitespace-pre-wrap leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>
                                 {state.translatedText}
                             </div>
                         </article>
 
                         {/* Navigation */}
                         {state.nextChapterUrl && (
-                            <div className="pt-8 border-t border-gray-800/50">
+                            <div className={`pt-8 border-t ${theme === 'dark' ? 'border-gray-800/50' : 'border-gray-200'}`}>
                                 <button
                                     onClick={handleNextChapter}
                                     className="w-full py-4 bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/30 hover:border-indigo-500/50 rounded-xl text-indigo-400 font-medium transition-all flex items-center justify-center gap-2 group"
