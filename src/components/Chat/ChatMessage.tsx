@@ -22,7 +22,7 @@ interface ChatMessageProps {
  * Supports basic markdown: **bold**, *italic*, bullet lists, numbered lists,
  * inline `code`, and line breaks.
  */
-const ChatMessage: React.FC<ChatMessageProps> = ({ message, isLatest = false }) => {
+const ChatMessage: React.FC<ChatMessageProps> = ({ message }) => {
     const isUser = message.role === 'user';
 
     return (

@@ -31,7 +31,7 @@ app.use(cors());
 app.use(express.json());
 
 // Request logging
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
     next();
 });
@@ -42,12 +42,12 @@ app.post('/api/analyze-url', analyzeUrl);
 app.post('/api/translate-stream', translateStream);
 
 // Health check
-app.get('/api/health', (req, res) => {
+app.get('/api/health', (_req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // Error handling middleware
-app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error('Error:', err.message);
     res.status(500).json({
         status: 'error',

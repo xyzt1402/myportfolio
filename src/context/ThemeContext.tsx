@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useLayoutEffect } from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { getCookie, setCookie } from '../utils/cookies';
 

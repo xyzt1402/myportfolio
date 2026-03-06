@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Code, Lock, Server, Layers, ShieldCheck, Rocket, Globe, Database } from 'lucide-react';
+import { Code, Lock, Server, Layers, Rocket, Globe, Database } from 'lucide-react';
 
 interface SkillTile {
     icon: React.ElementType;

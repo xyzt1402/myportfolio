@@ -1,5 +1,5 @@
 import OpenAI from 'openai';
-import type { TranslateStreamRequest, StreamChunk, ModelId, AVAILABLE_MODELS } from '../types.js';
+import type { TranslateStreamRequest, StreamChunk, ModelId } from '../types.js';
 import { splitIntoChunks } from './extractor.js';
 
 // Default model if none specified
@@ -67,7 +67,7 @@ function getModelId(model?: ModelId): ModelId {
 export async function translateChunk(
     textChunk: string,
     context?: string,
-    sourceLanguage: string = 'Chinese',
+    _sourceLanguage: string = 'Chinese',
     targetLanguage: string = 'Vietnamese',
     model?: ModelId
 ): Promise<string> {
@@ -121,7 +121,7 @@ export async function translateChunk(
 export async function translateWithStreaming(
     textChunk: string,
     context?: string,
-    sourceLanguage: string = 'Chinese',
+    _sourceLanguage: string = 'Chinese',
     targetLanguage: string = 'Vietnamese',
     model?: ModelId
 ): Promise<AsyncGenerator<StreamChunk>> {

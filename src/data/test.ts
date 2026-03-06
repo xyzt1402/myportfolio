@@ -96,12 +96,3 @@ class MailService {
 }
 
 export { useFetch, MailService };
-
-function userMailService() {
-    const mailService = new MailService("https://api.mailservice.com", "your-api-key");
-    mailService.setAPIKey("new-api-key");
-    mailService.setAPIUrl("https://api.newmailservice.com");
-    mailService.setMethod("POST");
-    mailService.sendEmail("recipient@example.com", "Test Subject", "Test Body");
-
-}

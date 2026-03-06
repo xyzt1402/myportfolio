@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Send, Mic } from 'lucide-react';
+import { Send } from 'lucide-react';
 
 interface ChatInputProps {
     value: string;

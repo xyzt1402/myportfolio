@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { BookOpen, ArrowRight, Loader2, AlertCircle, ChevronDown, RefreshCw, Cpu, Check } from 'lucide-react';
 import { analyzeUrl, translateText, checkServerHealth } from '../services/translationApi';
 import { AVAILABLE_MODELS, DEFAULT_MODEL_ID } from '../types/translation';
-import type { TranslationState, TranslationStatus, ModelId, AIModel } from '../types/translation';
+import type { TranslationState, ModelId } from '../types/translation';
 
 /**
  * Novel Translator Page

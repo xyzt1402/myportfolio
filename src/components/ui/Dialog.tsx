@@ -1,5 +1,4 @@
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
 import React from 'react';
 import Button from './Button';

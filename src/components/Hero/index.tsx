@@ -93,7 +93,7 @@ const Hero: React.FC = () => {
                         size="lg"
                         asChild
                     >
-                        <a href="/resume.pdf" download>
+                        <a href="/CV-FrontendDeveloper-LeThanhViet.pdf" download>
                             <Download className="w-4 h-4" />
                             Download CV
                         </a>
